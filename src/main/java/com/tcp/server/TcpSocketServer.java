@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,7 +21,9 @@ public class TcpSocketServer {
             System.out.println("tcp socket server start ... port:"+port);
             for (;;){
                 socket = server.accept();
-                executorService.execute(new TcpSocketServerHandler(socket));
+                BufferedReader in =new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                getResponse(in,out,socket);
             }
         }finally {
             if(server != null){
@@ -31,36 +34,21 @@ public class TcpSocketServer {
         }
     }
 
-}
-
-class TcpSocketServerHandler implements Runnable {
-    private Socket socket;
-    TcpSocketServerHandler(Socket socket) {
-        this.socket = socket;
-    }
-
-    public void run() {
-        BufferedReader in = null;
-        PrintWriter out = null;
+    private static void getResponse(BufferedReader in,PrintWriter out,Socket socket) throws Exception{
         try {
-            // 定义输出流
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
-            // 客户端发送消息
-            String request = null;
-            // 服务端返回响应
             String response = null;
+            String request = null;
+            Scanner scanner = new Scanner(System.in);
             while (true) {
                 request = in.readLine();
                 if (request == null) {
                     break;
                 }
-                System.out.println("客户端建立连接,Socket ID :"+socket.toString());
-                response = "adfs";
+                System.out.println("客户端:" + request);
+                response = scanner.nextLine();
                 out.println(response);
             }
-        } catch (Exception e) {
-
+        }catch (Exception e){
             if (in != null) {
                 try {
                     in.close();
@@ -80,8 +68,9 @@ class TcpSocketServerHandler implements Runnable {
                 }
             }
             socket = null;
-
         }
-
     }
+
+
 }
+
