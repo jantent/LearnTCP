@@ -11,7 +11,7 @@ public class TcpSocketClient {
 
 
     public static void main(String args[]) throws Exception{
-        int port = 9818;
+        int port = 9817;
         Socket socket = null;
         BufferedReader in = null;
         PrintWriter out = null;
