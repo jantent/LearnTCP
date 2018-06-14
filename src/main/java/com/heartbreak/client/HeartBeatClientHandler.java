@@ -55,6 +55,7 @@ public class HeartBeatClientHandler extends SimpleChannelInboundHandler<String>{
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         super.channelInactive(ctx);
         System.err.println("客户端与服务端断开连接,断开的时间为："+format.format(new Date()));
+        // 定时线程 断线重连
         final EventLoop eventLoop = ctx.channel().eventLoop();
         eventLoop.schedule(new Runnable() {
             @Override

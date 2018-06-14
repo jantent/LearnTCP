@@ -35,6 +35,9 @@ public class HeartBeatClient {
 
     }
 
+
+
+
     public void run() throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
@@ -48,6 +51,10 @@ public class HeartBeatClient {
         }
     }
 
+    /**
+     * 发送数据
+     * @throws Exception
+     */
     public void sendData() throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         while (true){
@@ -63,6 +70,9 @@ public class HeartBeatClient {
         }
     }
 
+    /**
+     * 连接服务端
+     */
     public void doConncet() {
         if (channel != null && channel.isActive()) {
             return;

@@ -45,6 +45,7 @@ public class MutipleexerTimeServer implements Runnable{
     public void run() {
         while (!stop){
             try {
+                // selector每隔一秒唤醒一次
                 selector.select(1000);
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
                 Iterator<SelectionKey> it = selectionKeys.iterator();
@@ -85,6 +86,7 @@ public class MutipleexerTimeServer implements Runnable{
             if (key.isAcceptable()){
                 // Accept the new Connection
                 ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
+                // 已完成TCP三次握手
                 SocketChannel sc = ssc.accept();
                 sc.configureBlocking(false);
                 // Add the new connection to the selector
