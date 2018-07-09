@@ -28,8 +28,8 @@ public class MutipleexerTimeServer implements Runnable{
             selector = Selector.open();
             servChannel = ServerSocketChannel.open();
             servChannel.configureBlocking(false);
-            servChannel.socket().bind(new InetSocketAddress(port),1024);
             servChannel.register(selector, SelectionKey.OP_ACCEPT);
+            servChannel.socket().bind(new InetSocketAddress(port),1024);
             System.out.println("the time server start at port: "+port );
         }catch (Exception e){
             e.printStackTrace();
